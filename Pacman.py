@@ -1,12 +1,22 @@
+# This version uses less pictures for player.
+# Also controls are a bit changed.
+# Now player always moves unless left shift is pressed.
+# 'wasd' buttons and arrow keys controls the direction player is faced.
+# Also Player can't leave screen.
+# Things needed to be done:
+# Improvent for cheking if there is an obstacle.
+# Improvement of controls
+# stop the animation when obstacle reached. * Should be done last
+
 import pygame
 
 # COLOURS:
-white = (255,255,255)
-black = (0,0,0)
+white = (255,255,255)                           # Code for white colour
+black = (0,0,0)                                 # Code for black colour
 
 # Window:
 size = (700,500)                                # Size of a window
-screen=pygame.display.set_mode(size)
+screen=pygame.display.set_mode(size)            # Create a window
 pygame.display.set_caption("Pacman multiplayer | Press ESC to quit")
 
 #Constants for game:
@@ -29,7 +39,7 @@ class character():
 
 # Set up player images:
 scale = 30                                      # Width and Height of the image
-images = ['PacmanClosed.png','PacmanOpen.png']
+images = ['PacmanClosed.png','PacmanOpen.png']  # List of player images
 images[0]=pygame.transform.scale(pygame.image.load(images[0]).convert(),(scale,scale))
 images[1]=pygame.transform.scale(pygame.image.load(images[1]).convert(),(scale,scale))
 
@@ -87,22 +97,20 @@ while programOn:
                 player.moves = False                                        #   player moves
         if event.type == pygame.KEYUP:                                      # User let up on a key:
             if (event.key == pygame.K_LSHIFT):                              # It's a left shift button:
-                player.moves = True                                         #   Player stops
-
-                
+                player.moves = True                                         #   Player stops                
     # END OF EVENT PROCESSING.
     # ------------------------
     # ALL GAME LOGIC:
     if ingame:
         if player.moves:
             player = moves(player)
-            if player.count == animate:
+            if player.count == animate:                     # If time to animate:
                 player.closed = not player.closed           # Change face
-                player.count = 0 
+                player.count = 0                            # Resets counting
             player.count = player.count + 1                 # Counts till next animation
             player = faceDirection(player,images)           # Set player's image
         else:
-            player.closed = True
+            player.closed = True                            # Closes the mouth
             player = faceDirection(player,images)           # Set player's image
             player.count = 0                                # Resets counting
     # END OF GAME LOGIC.
@@ -110,11 +118,11 @@ while programOn:
     # ALL CODE TO DRAW:
     screen.fill(black)                                      # Clear the screen and set the screen background
     
-    if ingame:
+    if ingame:                              
         if player.closed:
-            screen.blit(player.image1, [player.x,player.y])
+            screen.blit(player.image1, [player.x,player.y]) # Draw player on screen
         else:
-            screen.blit(player.image2, [player.x,player.y])
+            screen.blit(player.image2, [player.x,player.y]) # Draw player on screen
         
     pygame.display.flip()                                   # Shows what was drawn
     # END OF CODE TO DRAW.
